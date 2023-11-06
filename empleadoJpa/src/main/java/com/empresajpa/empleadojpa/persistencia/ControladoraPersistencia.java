@@ -2,6 +2,7 @@ package com.empresajpa.empleadojpa.persistencia;
 
 import com.empresajpa.empleadojpa.logica.Empleado;
 import com.empresajpa.empleadojpa.persistencia.exceptions.NonexistentEntityException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,11 +27,15 @@ public class ControladoraPersistencia {
         }
     }
     
-    public List<Empleado> traerEmpleados(){
-       return empleadoJpa.findEmpleadoEntities();
+    public ArrayList<Empleado> traerEmpleados(){
+        List<Empleado> listaEmp = empleadoJpa.findEmpleadoEntities();
+        ArrayList<Empleado> listaEmpleados = new ArrayList<Empleado>(listaEmp);
+        return listaEmpleados; 
     }
     
-    //public Empleado traerEmpleado()
+    public Empleado traerEmpleado(int id){
+        return empleadoJpa.findEmpleado(id);
+    }
     
     public void eliminarEmpleado(int id){
         try {

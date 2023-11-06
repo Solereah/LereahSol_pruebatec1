@@ -7,22 +7,25 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Empleado implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     private String nombre;
     private String apellido;
     private String cargo;
     private Double salario;
-    private String fechaInicio;
+    
+    @Temporal(TemporalType.DATE)
+    private Date fechaInicio;
 
     public Empleado() {
     }
 
-    public Empleado(int id, String nombre, String apellido, String cargo, Double salario, String fechaInicio) {
+    public Empleado(int id, String nombre, String apellido, String cargo, Double salario, Date fechaInicio) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -71,11 +74,11 @@ public class Empleado implements Serializable {
         this.salario = salario;
     }
 
-    public String getFechaInicio() {
+    public Date getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(String fechaInicio) {
+    public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
