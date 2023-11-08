@@ -12,7 +12,7 @@ import javax.persistence.TemporalType;
 @Entity
 public class Empleado implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     private String nombre;
     private String apellido;
@@ -25,13 +25,21 @@ public class Empleado implements Serializable {
     public Empleado() {
     }
 
+    
+
     public Empleado(int id, String nombre, String apellido, String cargo, Double salario, Date fechaInicio) {
+        
+       
+       // DateFormat setDateF = new SimpleDateFormat("yyyy/MM/dd");
+        
+      
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.cargo = cargo;
         this.salario = salario;
-        this.fechaInicio = fechaInicio;
+        this.fechaInicio = fechaInicio;     
+       
     }
 
     public int getId() {
@@ -85,7 +93,5 @@ public class Empleado implements Serializable {
     @Override
     public String toString() {
         return "Empleado{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", cargo=" + cargo + ", salario=" + salario + ", fechaInicio=" + fechaInicio + '}';
-    }
-
-   
+   }
 }

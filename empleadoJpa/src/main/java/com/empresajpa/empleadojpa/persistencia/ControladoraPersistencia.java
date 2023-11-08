@@ -11,12 +11,14 @@ import java.util.logging.Logger;
 public class ControladoraPersistencia {
     
     EmpleadoJpaController empleadoJpa = new EmpleadoJpaController();
+
+    public ControladoraPersistencia() {
+    }
     
     
     
-    public void crearEmpleado(Empleado empleado){
-        empleadoJpa.create(empleado);
-        
+    public void crearEmpleado(Empleado emple){  
+        empleadoJpa.create(emple);
     }
     
     public void modificarEmpleado(Empleado empleado){
@@ -29,8 +31,7 @@ public class ControladoraPersistencia {
     
     public ArrayList<Empleado> traerEmpleados(){
         List<Empleado> listaEmp = empleadoJpa.findEmpleadoEntities();
-        ArrayList<Empleado> listaEmpleados = new ArrayList<Empleado>(listaEmp);
-        return listaEmpleados; 
+        return new ArrayList<>(listaEmp); 
     }
     
     public Empleado traerEmpleado(int id){
