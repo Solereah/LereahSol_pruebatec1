@@ -27,12 +27,8 @@ public class Empleado implements Serializable {
 
     
 
-    public Empleado(int id, String nombre, String apellido, String cargo, Double salario, Date fechaInicio) {
-        
+    public Empleado(int id, String nombre, String apellido, String cargo, Double salario, Date fechaInicio) throws NullPointerException {
        
-       // DateFormat setDateF = new SimpleDateFormat("yyyy/MM/dd");
-        
-      
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;

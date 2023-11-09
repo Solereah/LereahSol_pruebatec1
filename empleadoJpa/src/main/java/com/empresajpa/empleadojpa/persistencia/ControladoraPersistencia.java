@@ -34,9 +34,12 @@ public class ControladoraPersistencia {
         return new ArrayList<>(listaEmp); 
     }
     
-    public Empleado traerEmpleado(int id){
-        return empleadoJpa.findEmpleado(id);
-    }
+    public Empleado traerEmpleado(int id) {
+        
+            return empleadoJpa.findEmpleado(id);
+        }
+        
+    
     
     public void eliminarEmpleado(int id){
         try {
