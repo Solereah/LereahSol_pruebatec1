@@ -32,7 +32,7 @@ public class EmpleadoJpa {
 
         //Menu de inicio
         System.out.println("""
-        ------------------- Bienvenido a HRConnect -------------------
+        ------------------- Bienvenido a HRSoft -------------------
                            
                 Aquí encontrarás todas las herramientas necesarias 
                 para optimizar la administración de recursos humanos.                       
