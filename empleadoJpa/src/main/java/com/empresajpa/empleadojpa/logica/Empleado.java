@@ -1,5 +1,6 @@
 package com.empresajpa.empleadojpa.logica;
 
+
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -11,31 +12,29 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class Empleado implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nombre;
     private String apellido;
     private String cargo;
     private Double salario;
-    
+
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
 
     public Empleado() {
     }
 
-    
+    public Empleado(int id, String nombre, String apellido, String cargo, Double salario, Date fechaInicio) {
 
-    public Empleado(int id, String nombre, String apellido, String cargo, Double salario, Date fechaInicio) throws NullPointerException {
-       
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.cargo = cargo;
         this.salario = salario;
-        this.fechaInicio = fechaInicio;     
-       
+        this.fechaInicio = fechaInicio;
     }
 
     public int getId() {
@@ -86,8 +85,10 @@ public class Empleado implements Serializable {
         this.fechaInicio = fechaInicio;
     }
 
+   
+
     @Override
     public String toString() {
         return "Empleado{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", cargo=" + cargo + ", salario=" + salario + ", fechaInicio=" + fechaInicio + '}';
-   }
+    }
 }

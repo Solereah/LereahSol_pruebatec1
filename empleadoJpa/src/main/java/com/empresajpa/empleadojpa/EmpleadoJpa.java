@@ -6,7 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class EmpleadoJpa {
@@ -15,17 +15,18 @@ public class EmpleadoJpa {
 
         //variables
         int opcion;
-        String respuesta;
+        String respuesta = "";
         Double opcDbl;
         boolean bandera = false;
-        Empleado empleEncontrado;
+        Date fechaInit = null;
+        Empleado empleEncontrado = null;
         ArrayList<Empleado> listaEmpleados;
 
         //Creo instancia de la clase Empleado
         Empleado empleado = new Empleado();
 
         //Creo Scanner para leer datos por teclado
-        Scanner teclado = new Scanner(System.in).useLocale(Locale.US);
+        Scanner teclado = new Scanner(System.in);
 
         //Creamos la tabla empleado
         ControladoraPersistencia controlPersis = new ControladoraPersistencia();
@@ -71,31 +72,46 @@ public class EmpleadoJpa {
                 System.out.println("Debe ingresar un número del 1 al 5 o pulse 0 para salir");
             } //Crear empleado
             else if (opcion == 1) {
-                System.out.println("Ingrese el nombre: ");
-                respuesta = teclado.next();
-                empleado.setNombre(respuesta);
+                //Evaluo que el dato sea string, ni esté vací0
+                while (respuesta.trim().isEmpty() || !respuesta.matches("^[a-zA-Z]+$")) {
+                    System.out.println("Por favor, ingrese un texto válido, el campo es requerido.");
 
-                System.out.println("Ingrese el apellido: ");
-                respuesta = teclado.next();
-                empleado.setApellido(respuesta);
-
-                System.out.println("Ingrese el cargo: ");
-                respuesta = teclado.next();
-                empleado.setCargo(respuesta);
-
-                System.out.println("Ingrese el salario: ");
-                opcDbl = teclado.nextDouble();
-                empleado.setSalario(opcDbl);
-
-                System.out.println("Ingrese la fecha de inicio con el siguiente formato ('yyyy-MM-dd') : ");
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    System.out.println("Ingrese el nombre: ");
                     respuesta = teclado.next();
-                    Date fechaInit = sdf.parse(respuesta);
-                    empleado.setFechaInicio(fechaInit);
-                } catch (ParseException e) {
-                    System.out.println("Formato de fecha no válido. Introduce la fecha en el formato YYYY-MM-DD.");
+                    empleado.setNombre(respuesta);
+
+                    System.out.println("Ingrese el apellido: ");
+                    respuesta = teclado.next();
+                    empleado.setApellido(respuesta);
+
+                    System.out.println("Ingrese el cargo: ");
+                    respuesta = teclado.next();
+                    empleado.setCargo(respuesta);
                 }
+                
+                    try {
+                        System.out.println("Ingrese el salario: ");
+                        opcDbl = teclado.nextDouble();
+
+                        empleado.setSalario(opcDbl);
+                    } catch (InputMismatchException ex) {
+                        System.out.println("Por favor, ingrese un número decimal válido:");
+                    }
+                
+                do {
+
+                    System.out.println("Ingrese la fecha de inicio con el siguiente formato ('yyyy-MM-dd') : ");
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        respuesta = teclado.next();
+                        fechaInit = sdf.parse(respuesta);
+                        empleado.setFechaInicio(fechaInit);
+                    } catch (ParseException e) {
+                        System.out.println("Formato de fecha no válido. Introduce la fecha en el formato YYYY-MM-DD.");
+                    }
+
+                } while (fechaInit == null);
+
                 controlPersis.crearEmpleado(empleado);
 
                 System.out.println("El empleado se ha agregado con exito: " + empleado.toString());
@@ -110,27 +126,28 @@ public class EmpleadoJpa {
                 }
             } //Modificar empleado
             else if (opcion == 3) {
-
                 while (opcion != 0) {
 
                     System.out.println("Ingrese el id del empleado que desea modificar o presione 0 para salir: ");
                     opcion = teclado.nextInt();
 
-                    //Submenu para modificar los datos del empleado
+                    //Sub menu para modificar los datos del empleado
                     //Mostrar el empleado a modificar
-                    try {
-                        empleEncontrado = controlPersis.traerEmpleado(opcion);
-                        System.out.println("El empleado a modificar es: " + controlPersis.traerEmpleado(opcion));
+                    empleEncontrado = controlPersis.traerEmpleado(opcion);
+
+                    if (empleEncontrado != null) {
+
+                        System.out.println("El empleado a modificar es: " + empleEncontrado);
                         System.out.println("""
-                                ----------Editar Empleado------------   
+                                ----------Editar Empleado------------
                                 Ingrese el campo que desea modificar:
                                 1.Nombre
                                 2.Apellido
                                 3.Cargo
                                 4.Salario
                                 5.Fecha de inicio
-                                Pulse 0 para volver al menú principal   
-                                                   """);
+                                Pulse 0 para volver al menú principal
+                                            """);
                         opcion = teclado.nextInt();
                         //Evalúo que el número esté dentro del rango de opciones
                         if (opcion < 0 || opcion > 5) {
@@ -138,6 +155,7 @@ public class EmpleadoJpa {
                             System.out.println("Ingrese su opcion: ");
                             opcion = teclado.nextInt();
                         }
+
                         //Lógica para modificar el nombre
                         if (opcion == 1) {
                             System.out.println("Ha seleccionado modificar el nombre.");
@@ -176,23 +194,25 @@ public class EmpleadoJpa {
                         }
                         // Lógica para modificar la fecha de inicio
                         if (opcion == 5) {
-                            System.out.println("Ha seleccionado modificar la fecha de inicio.");
+                            while (fechaInit == null) {
+                                System.out.println("Ha seleccionado modificar la fecha de inicio.");
 
-                            System.out.println("Ingrese la fecha de inicio con el siguiente formato ('yyyy-MM-dd') : ");
-                            try {
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                                respuesta = teclado.next();
-                                Date fechaInit = sdf.parse(respuesta);
-                                empleEncontrado.setFechaInicio(fechaInit);
-                                controlPersis.modificarEmpleado(empleEncontrado);
-                            } catch (ParseException e) {
-                                System.out.println("Formato de fecha no válido. Introduce la fecha en el formato YYYY-MM-DD.");
+                                System.out.println("Ingrese la fecha de inicio con el siguiente formato ('yyyy-MM-dd') : ");
+                                try {
+                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                    respuesta = teclado.next();
+                                    fechaInit = sdf.parse(respuesta);
+                                    empleEncontrado.setFechaInicio(fechaInit);
+                                    controlPersis.modificarEmpleado(empleEncontrado);
+                                } catch (ParseException e) {
+                                    System.out.println("Formato de fecha no válido. Introduce la fecha en el formato YYYY-MM-DD.");
+                                }
                             }
                         }
+
                         System.out.println("El empleado se ha modificado con éxito: " + empleEncontrado.toString());
-                    } catch (Exception e) {
-                        System.out.println("Error en el id, el empleado no existe.");
                     }
+
                 }
             } //Eliminar empleado
             else if (opcion == 4) {
@@ -232,5 +252,6 @@ public class EmpleadoJpa {
 
         //Finalizo programa
         System.out.println("Ha cerrado sesión. Gracias por usar nuestros servicios");
+        teclado.close();
     }
 }
