@@ -84,7 +84,8 @@ public class Empleado implements Serializable {
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
-
+    
+    
    
 
     @Override
