@@ -45,3 +45,35 @@ Ingresa el cargo por el cual deseas filtrar.</p>
 </li>
 </ol>
 
+<h3>Validaciones de Entrada de Datos</h3>
+La aplicación HRConnect incluye un conjunto de validaciones de entrada de datos para garantizar la información almacenada en la base de datos MySQL. 
+A continuación se detallan las validaciones realizadas para cada funcionalidad:
+
+1. Agregar un Nuevo Empleado
+Validación de Campos Requeridos:
+Se asegura de que todos los campos obligatorios (nombre, apellido, cargo, salario, fecha de inicio) sean proporcionados antes de realizar el registro.
+Validación de Datos Válidos:
+Cada campo se somete a verificaciones para asegurarse de que los datos ingresados sean válidos y cumplan con los criterios establecidos.
+2. Listar Empleados
+Sin Validaciones Específicas:
+Dado que esta funcionalidad solo implica la recuperación y presentación de datos, no se aplican validaciones específicas en este contexto.
+3. Actualizar Información de un Empleado
+Validación de ID Existente:
+Antes de permitir la modificación, se verifica que el ID proporcionado corresponda a un empleado existente en la base de datos.
+Validación de Campos Modificables:
+Se asegura de que solo se puedan modificar los campos específicos (nombre, apellido, cargo, salario, fecha de inicio) y que los datos modificados sean válidos.
+4. Eliminar un Empleado
+Validación de ID Existente:
+Antes de proceder con la eliminación, se verifica que el ID proporcionado corresponda a un empleado existente en la base de datos.
+5. Buscar Empleados por Cargo
+Validación de Cargo Válido:
+Se verifica que el cargo ingresado para la búsqueda sea válido y exista en la base de datos.
+6. Menú Principal
+Validación de Opciones del Menú:
+
+El sistema garantiza que solo se puedan seleccionar opciones válidas del menú principal (opciones del 1 al 5).
+Manejo de Opciones No Válidas:
+
+Se implementa un mecanismo para manejar opciones no válidas proporcionando mensajes de error claros para que el usuario pueda saber que falló. 
+
+
